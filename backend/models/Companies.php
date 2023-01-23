@@ -12,6 +12,8 @@ use Yii;
  * @property string|null $company_email
  * @property string|null $company_address
  * @property string|null $company_created_date
+ * @property string|null $company_start_date
+ * @property string|null $logo
  *
  * @property Branches[] $branches
  * @property Departments[] $departments
@@ -21,8 +23,6 @@ class Companies extends \yii\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public $file;
-
     public static function tableName()
     {
         return 'companies';
@@ -34,10 +34,10 @@ class Companies extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['company_created_date'], 'safe'],
-            [['file'], 'file'],
-            [['company_name', 'logo', 'company_email'], 'string', 'max' => 100],
+            [['company_created_date', 'company_start_date'], 'safe'],
+            [['company_name', 'company_email'], 'string', 'max' => 100],
             [['company_address'], 'string', 'max' => 255],
+            [['logo'], 'string', 'max' => 200],
         ];
     }
 
@@ -52,7 +52,8 @@ class Companies extends \yii\db\ActiveRecord
             'company_email' => 'Company Email',
             'company_address' => 'Company Address',
             'company_created_date' => 'Company Created Date',
-            'file' => 'Logo',
+            'company_start_date' => 'Company Start Date',
+            'logo' => 'Logo',
         ];
     }
 

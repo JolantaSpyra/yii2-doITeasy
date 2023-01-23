@@ -1,134 +1,84 @@
 <?php
 
-namespace backend\modules\settings\controllers;
+namespace backend\modules\settings\models;
 
-use backend\modules\settings\models\Companies;
-use backend\modules\settings\models\CompaniesSearch;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+use Yii;
 
 /**
- * CompaniesController implements the CRUD actions for Companies model.
+ * This is the model class for table "companies".
+ *
+ * @property integer $company_id
+ * @property string $company_start_date
+ * @property string $company_name
+ * @property string $company_email
+ * @property string $company_address
+ * @property string $company_created_date
+
+ *
+ * @property Branches[] $branches
+ * @property Departments[] $departments
  */
-class CompaniesController extends Controller
+class Companies extends \yii\db\ActiveRecord
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
-    public function behaviors()
+    public static function tableName()
     {
-        return array_merge(
-            parent::behaviors(),
-            [
-                'verbs' => [
-                    'class' => VerbFilter::className(),
-                    'actions' => [
-                        'delete' => ['POST'],
-                    ],
-                ],
-            ]
-        );
+        return 'companies';
     }
 
     /**
-     * Lists all Companies models.
-     *
-     * @return string
+     * @inheritdoc
      */
-    public function actionIndex()
-    {
-        $searchModel = new CompaniesSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+    public function rules(){
+        return [
+            [['company_start_date', 'company_name', 'company_email', 'company_address', 'company_created_date'], 'required'],
+            [['company_start_date', 'company_created_date'], 'safe'],
+            ['company_start_date','checkDate'],
+            [['company_name', 'company_email', 'company_address'], 'string', 'max' => 100]
+        ];
     }
-
-    /**
-     * Displays a single Companies model.
-     * @param int $company_id Company ID
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($company_id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($company_id),
-        ]);
-    }
-
-    /**
-     * Creates a new Companies model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
-     */
-    public function actionCreate()
-    {
-        $model = new Companies();
-
-        if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'company_id' => $model->company_id]);
-            }
-        } else {
-            $model->loadDefaultValues();
+    
+       
+    
+    public function checkDate($attribute,$params){
+        $today=date('Y-m-d');
+        $selectedDate=date($this->company_start_date);
+        
+        if ($selectedDate > $today){
+            $this->addError($attribute,'Company Start Date must be smaller');
         }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
     }
 
     /**
-     * Updates an existing Companies model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $company_id Company ID
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
+     * @inheritdoc
      */
-    public function actionUpdate($company_id)
+    public function attributeLabels()
     {
-        $model = $this->findModel($company_id);
-
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'company_id' => $model->company_id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        return [
+            'company_id' => 'Company ID',
+            'company_start_date' => 'Company Start Date',
+            'company_name' => 'Company Name',
+            'company_email' => 'Company Email',
+            'company_address' => 'Company Address',
+            'company_created_date' => 'Company Created Date',
+        ];
     }
 
     /**
-     * Deletes an existing Companies model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $company_id Company ID
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
+     * @return \yii\db\ActiveQuery
      */
-    public function actionDelete($company_id)
+    public function getBranches()
     {
-        $this->findModel($company_id)->delete();
-
-        return $this->redirect(['index']);
+        return $this->hasMany(Branches::className(), ['companies_company_id' => 'company_id']);
     }
 
     /**
-     * Finds the Companies model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $company_id Company ID
-     * @return Companies the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * @return \yii\db\ActiveQuery
      */
-    protected function findModel($company_id)
+    public function getDepartments()
     {
-        if (($model = Companies::findOne(['company_id' => $company_id])) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
+        return $this->hasMany(Departments::className(), ['companies_company_id' => 'company_id']);
     }
 }

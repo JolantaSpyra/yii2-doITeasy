@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /** @var yii\web\View $this */
-/** @var backend\models\CompaniesSearch $model */
+/** @var backend\modules\settings\models\CompaniesSearch $model */
 /** @var yii\widgets\ActiveForm $form */
 ?>
 
@@ -24,6 +24,10 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'company_address') ?>
 
     <?= $form->field($model, 'company_created_date') ?>
+
+    <?php  echo $form->field($model, 'company_start_date') ?>
+
+    <?php  echo $form->field($model, 'logo') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>

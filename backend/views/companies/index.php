@@ -1,13 +1,13 @@
 <?php
 
-use backend\models\Companies;
+use backend\modules\settings\models\Companies;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
 use yii\grid\GridView;
 
 /** @var yii\web\View $this */
-/** @var backend\models\CompaniesSearch $searchModel */
+/** @var backend\modules\settings\models\CompaniesSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
 $this->title = 'Companies';
@@ -29,11 +29,13 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            // 'company_id',
+            'company_id',
             'company_name',
             'company_email:email',
             'company_address',
             'company_created_date',
+            'company_start_date',
+            'logo',
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Companies $model, $key, $index, $column) {
