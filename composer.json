@@ -20,7 +20,8 @@
         "yiisoft/yii2-bootstrap5": "~2.0.2",
         "kartik-v/yii2-widget-select2": "@dev",
         "yiisoft/yii2-bootstrap": "@dev",
-        "2amigos/yii2-date-time-picker-widget": "~1.0"
+        "2amigos/yii2-date-time-picker-widget": "~1.0",
+        "wbraganca/yii2-dynamicform": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
