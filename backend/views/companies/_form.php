@@ -11,7 +11,7 @@ use dosamigos\datetimepicker\DateTimePicker;
 
 <div class="companies-form">
 
-    <?php $form = ActiveForm::begin(['enableAjaxValidation'=>true]); ?>
+    <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'company_name')->textInput(['maxlength' => true]) ?>
 
@@ -40,7 +40,5 @@ use dosamigos\datetimepicker\DateTimePicker;
     </div>
 
     <?php ActiveForm::end(); ?>
-
-    
 
 </div>

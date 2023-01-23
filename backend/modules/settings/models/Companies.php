@@ -32,10 +32,9 @@ class Companies extends \yii\db\ActiveRecord
      */
     public function rules(){
         return [
-            [['company_start_date', 'company_name', 'company_email', 'company_address', 'company_created_date', 'company_status'], 'required'],
+            [['company_start_date', 'company_name', 'company_email', 'company_address', 'company_created_date'], 'required'],
             [['company_start_date', 'company_created_date'], 'safe'],
             ['company_start_date','checkDate'],
-            [['company_status'], 'string'],
             [['company_name', 'company_email', 'company_address'], 'string', 'max' => 100]
         ];
     }
