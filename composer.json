@@ -23,7 +23,8 @@
         "2amigos/yii2-date-time-picker-widget": "~1.0",
         "wbraganca/yii2-dynamicform": "*",
         "kartik-v/yii2-grid": "*",
-        "kartik-v/yii2-krajee-base": "dev-master"
+        "kartik-v/yii2-krajee-base": "dev-master",
+        "philippfrenzel/yii2fullcalendar": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",
