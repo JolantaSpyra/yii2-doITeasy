@@ -14,11 +14,14 @@ class CompaniesSearch extends Companies
     /**
      * {@inheritdoc}
      */
+    public $globalSearch;
+
     public function rules()
     {
+        
         return [
             [['company_id'], 'integer'],
-            [['company_name', 'company_email', 'company_address', 'company_created_date'], 'safe'],
+            [['company_name', 'globalSearch', 'company_email', 'company_address', 'company_created_date'], 'safe'],
         ];
     }
 
@@ -56,15 +59,9 @@ class CompaniesSearch extends Companies
             return $dataProvider;
         }
 
-        // grid filtering conditions
-        $query->andFilterWhere([
-            'company_id' => $this->company_id,
-            'company_created_date' => $this->company_created_date,
-        ]);
-
-        $query->andFilterWhere(['ilike', 'company_name', $this->company_name])
-            ->andFilterWhere(['ilike', 'company_email', $this->company_email])
-            ->andFilterWhere(['ilike', 'company_address', $this->company_address]);
+        $query->orFilterWhere(['ilike', 'company_name', $this->globalSearch])
+            ->orFilterWhere(['ilike', 'company_email', $this->globalSearch])
+            ->orFilterWhere(['ilike', 'company_address', $this->globalSearch]);
 
         return $dataProvider;
     }

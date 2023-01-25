@@ -7,11 +7,12 @@ use Yii;
 /**
  * This is the model class for table "branches".
  *
- * @property int $branch_id
- * @property string|null $branch_name
- * @property string|null $branch_address
- * @property string|null $branch_created_date
- * @property int|null $companies_company_id
+ * @property integer $branch_id
+ * @property integer $companies_company_id
+ * @property string $branch_name
+ * @property string $branch_address
+ * @property string $branch_create_data
+ * @property string $branch_status
  *
  * @property Companies $companiesCompany
  * @property Departments[] $departments
@@ -19,7 +20,7 @@ use Yii;
 class Branches extends \yii\db\ActiveRecord
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static function tableName()
     {
@@ -27,51 +28,58 @@ class Branches extends \yii\db\ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['branch_created_date'], 'safe'],
-            [['companies_company_id'], 'default', 'value' => null],
+            [['companies_company_id', 'branch_name', 'branch_create_data'], 'required'],// 'branch_address', 'branch_status'
             [['companies_company_id'], 'integer'],
-            [['branch_name'], 'string', 'max' => 100],
-            [['branch_address'], 'string', 'max' => 255],
-            [['companies_company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Companies::class, 'targetAttribute' => ['companies_company_id' => 'company_id']],
+            [['branch_create_data'], 'safe'],
+            [['branch_status'], 'string'],
+            ['branch_name','unique'],
+            ['branch_status','required','when'=>function ($model){
+                return (!empty($model->branch_address)) ? true : false;
+            },'whenClient'=>"function(){
+                
+                if( $('#branch_address').val()===undefined ){
+                    false;
+                }else{
+                    true;
+                }
+            }"],
+            [['branch_name', 'branch_address'], 'string', 'max' => 100]
         ];
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function attributeLabels()
     {
         return [
             'branch_id' => 'Branch ID',
+            'companies_company_id' => 'Companies Company Name',
             'branch_name' => 'Branch Name',
             'branch_address' => 'Branch Address',
-            'branch_created_date' => 'Branch Created Date',
-            'companies_company_id' => 'Companies Name',
+            'branch_create_data' => 'Branch Create Data',
+            'branch_status' => 'Branch Status',
         ];
     }
 
     /**
-     * Gets query for [[CompaniesCompany]].
-     *
      * @return \yii\db\ActiveQuery
      */
     public function getCompaniesCompany()
     {
-        return $this->hasOne(Companies::class, ['company_id' => 'companies_company_id']);
+        return $this->hasOne(Companies::className(), ['company_id' => 'companies_company_id']);
     }
 
     /**
-     * Gets query for [[Departments]].
-     *
      * @return \yii\db\ActiveQuery
      */
     public function getDepartments()
     {
-        return $this->hasMany(Departments::class, ['branches_branch_id' => 'branch_id']);
+        return $this->hasMany(Departments::className(), ['branches_branch_id' => 'branch_id']);
     }
 }

@@ -12,7 +12,8 @@ use backend\models\Companies;
 
 <div class="branches-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([
+        'id'=>$model->formName()]); ?>
 
     <?= $form->field($model, 'companies_company_id')->dropDownList(
             ArrayHelper::map(Companies::find()->all(), 'company_id', 'company_name'),
@@ -34,3 +35,28 @@ use backend\models\Companies;
     <?php ActiveForm::end(); ?>
 
 </div>
+<?php
+$script = <<< JS
+$('form#{$model->formName()}').on('beforeSubmit',function(e){
+    var \$form=$(this);
+    $.post(
+        \$form.attr('action'),
+        \$form.serialize()
+    ).done(function(result){
+        //console.log(result);
+        if(result==1){
+            $(document).find('#modal').modal('hide');
+            $(\$form).trigger("reset");
+            $.pjax.reload({container:'#branchesGrid'});
+        }else{
+            $(\$form).trigger("reset");
+            $("#message").html(result);
+        }
+    }).fail(function(){
+        console.log("server error");    
+    });
+    return false;
+});
+JS;
+$this->registerJs($script);
+?>

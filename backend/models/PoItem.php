@@ -7,17 +7,17 @@ use Yii;
 /**
  * This is the model class for table "po_item".
  *
- * @property int $id
- * @property string|null $po_item_no
- * @property float|null $quantity
- * @property int|null $po_id
+ * @property integer $id
+ * @property string $po_item_no
+ * @property double $quantity
+ * @property integer $po_id
  *
  * @property Po $po
  */
 class PoItem extends \yii\db\ActiveRecord
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static function tableName()
     {
@@ -25,21 +25,20 @@ class PoItem extends \yii\db\ActiveRecord
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function rules()
     {
         return [
+            [['po_item_no', 'quantity'], 'required'],
             [['quantity'], 'number'],
-            [['po_id'], 'default', 'value' => null],
             [['po_id'], 'integer'],
-            [['po_item_no'], 'string', 'max' => 10],
-            [['po_id'], 'exist', 'skipOnError' => true, 'targetClass' => Po::class, 'targetAttribute' => ['po_id' => 'id']],
+            [['po_item_no'], 'string', 'max' => 10]
         ];
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function attributeLabels()
     {
@@ -52,12 +51,10 @@ class PoItem extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Po]].
-     *
      * @return \yii\db\ActiveQuery
      */
     public function getPo()
     {
-        return $this->hasOne(Po::class, ['id' => 'po_id']);
+        return $this->hasOne(Po::className(), ['id' => 'po_id']);
     }
 }

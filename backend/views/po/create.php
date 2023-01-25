@@ -2,8 +2,9 @@
 
 use yii\helpers\Html;
 
-/** @var yii\web\View $this */
-/** @var backend\models\Po $model */
+
+/* @var $this yii\web\View */
+/* @var $model backend\models\Po */
 
 $this->title = 'Create Po';
 $this->params['breadcrumbs'][] = ['label' => 'Pos', 'url' => ['index']];
