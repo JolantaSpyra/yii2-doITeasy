@@ -36,17 +36,17 @@ class EventController extends Controller
 //         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         $events=Event::find()->all();
-        // $tasks=[];
+        $tasks=[];
         foreach ($events as $eve){
               $event = new \yii2fullcalendar\models\Event();
               $event->id = $eve->id;
               $event->title = $eve->title;
-              $event->start = date('Y-m-d\Th:m:s\Z',strtotime('tomorrow 6am'));
-            //   $tasks[] = $event;
+              $event->start = $eve->created_date;
+              $tasks[] = $event;
         }
         return $this->render('index', [
             //'searchModel' => $searchModel,
-            'events' => $events,
+            'events' => $tasks,
         ]);
     }
 
