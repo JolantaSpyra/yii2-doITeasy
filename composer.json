@@ -24,7 +24,9 @@
         "wbraganca/yii2-dynamicform": "*",
         "kartik-v/yii2-grid": "*",
         "kartik-v/yii2-krajee-base": "dev-master",
-        "philippfrenzel/yii2fullcalendar": "*"
+        "philippfrenzel/yii2fullcalendar": "*",
+        "kartik-v/yii2-editable": "dev-master",
+        "hail812/yii2-adminlte3": "~1.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

@@ -58,5 +58,5 @@ $('form#{$model->formName()}').on('beforeSubmit',function(e){
     return false;
 });
 JS;
-$this->registerJs($script);
+$this->registerJ
 ?>
