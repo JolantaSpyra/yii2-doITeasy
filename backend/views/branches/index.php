@@ -4,9 +4,10 @@ use backend\models\Branches;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
 use yii\bootstrap\Modal;
+
 
 /** @var yii\web\View $this */
 /** @var backend\models\BranchesSearch $searchModel */
@@ -29,22 +30,36 @@ $this->params['breadcrumbs'][] = $this->title;
             'size'=>'modal-lg',
             
         ]);
-        echo "<div id='modalContent'></div>";
+        echo "<div id='modalContent'>wwwwwwwwwww</div>";
         Modal::end();
     ?>
 
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-    <?php Pjax::begin(['id'=>'branchesGrid']); ?>
+    <!-- <?php Pjax::begin(['id'=>'branchesGrid']); ?> -->
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'pjax' => true,
+        'export' => false,
+        'rowOptions'=>function ($model){
+
+                return ['class'=>'success'];
+            },
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
                 'attribute'=>'companies_company_id',
                 'value'=>'companiesCompany.company_name',
             ],
+            // [
+            //     'class'=>'kartik\grid\EditableColumn',
+            //       'header'=>'BRANCH',
+            //       'attribute'=>'branch_name',
+            //     //   'value'=>function ($model){
+            //     //       return 'the branch name is '.$model->branch_name;
+            //     //  }
+            //   ],
             'branch_name',
             'branch_address',
             'branch_created_date',
@@ -57,6 +72,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]); ?>
-    <?php Pjax::end(); ?>
+    <!-- <?php Pjax::end(); ?> -->
 
 </div>

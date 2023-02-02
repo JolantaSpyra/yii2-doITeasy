@@ -19,7 +19,7 @@ class LoginAsset extends AssetBundle
         // 'css/site.css',
     ];
     public $js = [
-//         'js/jquery-2.1.1.js',与yii自带的jquery冲突了，所以取消html模板中这一个jquery(yii2的会更新)
+//         'js/jquery-2.1.1.js',
         // 'js/bootstrap.min.js',
        
     ];
